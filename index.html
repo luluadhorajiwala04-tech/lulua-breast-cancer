@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Breast Cancer Awareness</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <!-- Background decorations -->
+  <div class="bg-decoration ribbon"></div>
+  <div class="bg-decoration ribbon"></div>
+  <div class="bg-decoration ribbon"></div>
+  <div class="bg-decoration ribbon"></div>
+
+  <header>
+    <nav>
+      <div class="logo">Hope & Healing</div>
+
+      <!-- Burger button -->
+      <button class="nav-toggle" aria-label="Toggle menu" aria-controls="primary-nav" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <ul id="primary-nav" class="nav-links" data-state="closed">
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('diagnostics')">Diagnostics</a></li>
+        <li><a href="#" onclick="showPage('treatment')">Treatment</a></li>
+        <li><a href="#" onclick="showPage('cases')">Case Analysis</a></li>
+        <li><a href="#" onclick="showPage('research')">Research</a></li>
+        <li><a href="#" onclick="showPage('links')">Links</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Home Page -->
+    <div id="home" class="page active">
+      <div class="hero">
+        <div class="hero-content">
+          <h1>Breast Cancer Awareness</h1>
+          <p>Together we fight, together we heal, together we hope for a brighter tomorrow</p>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-number">1 in 8</span>
+          <span class="stat-label">Women affected</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">90%</span>
+          <span class="stat-label">5-year survival rate</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">Early</span>
+          <span class="stat-label">Detection saves lives</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">Hope</span>
+          <span class="stat-label">Never give up</span>
+        </div>
+      </div>
+
+      <!-- NEW: Two videos below stats -->
+
+        <div class="video-card">
+          <div class="video-frame">
+            <video controls preload="metadata" poster="poster2.jpg">
+              <source src="Breast Cancer Treatment.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <p class="video-caption">Breast Cancer Treatment</p>
+        </div>
+      </div>
+      <!-- End videos -->
+    </div>
+
+    <!-- Diagnostics Page -->
+    <div id="diagnostics" class="page">
+      <h2 class="section-title">Diagnostic Methods</h2>
+
+      <div class="diagnostic-method">
+        <h3>🔬 Mammography</h3>
+        <p><strong>Gold Standard Screening:</strong> Low-dose X-ray examination of the breast, recommended annually for women over 50, or earlier for high-risk individuals. Can detect tumors before they can be felt.</p>
+        <p><strong>Accuracy:</strong> Detects 87% of breast cancers in women over 50.</p>
+      </div>
+
+      <div class="diagnostic-method">
+        <h3>🫀 Ultrasound</h3>
+        <p><strong>Non-invasive Imaging:</strong> Uses sound waves to create images of breast tissue. Often used to evaluate lumps found during physical exams or mammograms.</p>
+        <p><strong>Benefits:</strong> No radiation exposure, can distinguish between solid masses and fluid-filled cysts.</p>
+      </div>
+
+      <div class="diagnostic-method">
+        <h3>🧲 MRI (Magnetic Resonance Imaging)</h3>
+        <p><strong>Detailed Imaging:</strong> Uses magnetic fields and radio waves to create detailed images. Recommended for high-risk women or to evaluate treatment response.</p>
+        <p><strong>Sensitivity:</strong> Most sensitive imaging method, can detect small cancers missed by other methods.</p>
+      </div>
+
+      <div class="diagnostic-method">
+        <h3>🔬 Biopsy</h3>
+        <p><strong>Definitive Diagnosis:</strong> Removal of tissue sample for microscopic examination. Types include needle biopsy, vacuum-assisted biopsy, and surgical biopsy.</p>
+        <p><strong>Accuracy:</strong> Provides definitive diagnosis with molecular subtyping information.</p>
+      </div>
+
+      <div class="diagnostic-method">
+        <h3>🧬 Genetic Testing</h3>
+        <p><strong>BRCA1/BRCA2 Testing:</strong> Identifies inherited gene mutations that increase breast cancer risk. Recommended for individuals with strong family history.</p>
+        <p><strong>Risk Assessment:</strong> Helps determine prevention strategies and screening schedules.</p>
+      </div>
+    </div>
+
+    <!-- Treatment Page -->
+    <div id="treatment" class="page">
+      <h2 class="section-title">Treatment Options</h2>
+
+      <div class="treatment-option">
+        <h3>⚔️ Surgery</h3>
+        <p><strong>Lumpectomy:</strong> Removal of tumor and small amount of surrounding tissue, preserving most of the breast.</p>
+        <p><strong>Mastectomy:</strong> Removal of entire breast, with options for reconstruction. May be preventive or therapeutic.</p>
+        <p><strong>Sentinel Node Biopsy:</strong> Minimally invasive procedure to determine if cancer has spread to lymph nodes.</p>
+      </div>
+
+      <div class="treatment-option">
+        <h3>🌟 Chemotherapy</h3>
+        <p><strong>Systemic Treatment:</strong> Uses anti-cancer drugs to destroy cancer cells throughout the body.</p>
+        <p><strong>Neoadjuvant:</strong> Given before surgery to shrink tumors and make surgery more effective.</p>
+        <p><strong>Adjuvant:</strong> Given after surgery to eliminate remaining cancer cells and prevent recurrence.</p>
+      </div>
+
+      <div class="treatment-option">
+        <h3>☢️ Radiation Therapy</h3>
+        <p><strong>External Beam Radiation:</strong> High-energy rays targeted at cancer site to destroy remaining cancer cells after surgery.</p>
+        <p><strong>Brachytherapy:</strong> Internal radiation therapy where radioactive material is placed directly into or near the tumor.</p>
+        <p><strong>Duration:</strong> Typically 5-7 weeks of daily treatments.</p>
+      </div>
+
+      <div class="treatment-option">
+        <h3>🎯 Targeted Therapy</h3>
+        <p><strong>HER2-targeted drugs:</strong> Trastuzumab (Herceptin) and pertuzumab for HER2-positive cancers.</p>
+        <p><strong>CDK4/6 Inhibitors:</strong> Palbociclib, ribociclib, and abemaciclib for hormone receptor-positive cancers.</p>
+        <p><strong>mTOR Inhibitors:</strong> Everolimus for advanced hormone receptor-positive cancers.</p>
+      </div>
+
+      <div class="treatment-option">
+        <h3>🛡️ Immunotherapy</h3>
+        <p><strong>Checkpoint Inhibitors:</strong> Pembrolizumab for triple-negative breast cancer with high tumor mutational burden.</p>
+        <p><strong>Mechanism:</strong> Helps immune system recognize and attack cancer cells more effectively.</p>
+        <p><strong>Combination:</strong> Often used with chemotherapy for enhanced effectiveness.</p>
+      </div>
+
+      <div class="treatment-option">
+        <h3>💊 Hormone Therapy</h3>
+        <p><strong>Tamoxifen:</strong> Blocks estrogen receptors, used for all stages of hormone receptor-positive breast cancer.</p>
+        <p><strong>Aromatase Inhibitors:</strong> Anastrozole, letrozole, and exemestane reduce estrogen production in postmenopausal women.</p>
+        <p><strong>Duration:</strong> Typically 5-10 years of treatment to prevent recurrence.</p>
+      </div>
+    </div>
+
+    <!-- Case Analysis Page -->
+    <div id="cases" class="page">
+      <h2 class="section-title">Case Studies & Analysis</h2>
+
+      <div class="case-study">
+        <h3>Case 1: Early-Stage Detection Success</h3>
+        <p><strong>Patient Profile:</strong> 45-year-old woman, routine mammogram</p>
+        <p><strong>Diagnosis:</strong> Stage I invasive ductal carcinoma (1.2cm tumor)</p>
+        <p><strong>Treatment:</strong> Lumpectomy + sentinel lymph node biopsy + radiation therapy</p>
+        <p><strong>Outcome:</strong> Disease-free at 5-year follow-up</p>
+        <p><strong>Key Learning:</strong> Early detection through routine screening led to breast-conserving treatment with excellent prognosis.</p>
+      </div>
+
+      <div class="case-study">
+        <h3>Case 2: Triple-Negative Breast Cancer</h3>
+        <p><strong>Patient Profile:</strong> 38-year-old woman with rapidly growing breast mass</p>
+        <p><strong>Diagnosis:</strong> Stage IIB triple-negative invasive ductal carcinoma</p>
+        <p><strong>Treatment:</strong> Neoadjuvant chemotherapy → mastectomy → adjuvant immunotherapy</p>
+        <p><strong>Outcome:</strong> Complete pathological response, no evidence of disease at 2 years</p>
+        <p><strong>Key Learning:</strong> Aggressive multimodal treatment approach for challenging cancer subtype.</p>
+      </div>
+
+      <div class="case-study">
+        <h3>Case 3: HER2-Positive Advanced Cancer</h3>
+        <p><strong>Patient Profile:</strong> 52-year-old woman with metastatic disease</p>
+        <p><strong>Diagnosis:</strong> Stage IV HER2-positive adenocarcinoma with liver metastases</p>
+        <p><strong>Treatment:</strong> Targeted therapy (trastuzumab + pertuzumab) + chemotherapy</p>
+        <p><strong>Outcome:</strong> Significant tumor shrinkage, improved quality of life, ongoing treatment</p>
+        <p><strong>Key Learning:</strong> Targeted therapy transforms outcomes even in advanced HER2-positive disease.</p>
+      </div>
+
+      <div class="case-study">
+        <h3>Case 4: Hereditary Breast Cancer</h3>
+        <p><strong>Patient Profile:</strong> 35-year-old woman with strong family history</p>
+        <p><strong>Diagnosis:</strong> BRCA1 mutation carrier with bilateral breast cancer</p>
+        <p><strong>Treatment:</strong> Bilateral mastectomy + reconstruction + genetic counseling</p>
+        <p><strong>Outcome:</strong> Cancer-free, family members underwent genetic testing</p>
+        <p><strong>Key Learning:</strong> Genetic testing and prophylactic surgery can be life-saving for high-risk individuals.</p>
+      </div>
+    </div>
+
+    <!-- Research Page -->
+    <div id="research" class="page">
+      <h2 class="section-title">Latest Research & Papers</h2>
+
+      <div class="research-paper">
+        <h3>🔬 Precision Medicine in Breast Cancer Treatment</h3>
+        <p><strong>Journal:</strong> Nature Medicine (2024)</p>
+        <p><strong>Key Findings:</strong> Genomic profiling helps identify optimal treatment combinations, reducing overtreatment while improving outcomes. 21-gene assay reduces chemotherapy use by 70% in appropriate patients.</p>
+        <p><strong>Impact:</strong> Personalizes treatment decisions based on tumor biology rather than stage alone.</p>
+      </div>
+
+      <div class="research-paper">
+        <h3>🧬 Liquid Biopsy for Early Detection</h3>
+        <p><strong>Journal:</strong> Science Translational Medicine (2024)</p>
+        <p><strong>Key Findings:</strong> Circulating tumor DNA (ctDNA) detection in blood samples shows 89% sensitivity for early-stage breast cancer detection.</p>
+        <p><strong>Impact:</strong> Non-invasive screening method could complement mammography for high-risk populations.</p>
+      </div>
+
+      <div class="research-paper">
+        <h3>🤖 AI-Enhanced Mammography Reading</h3>
+        <p><strong>Journal:</strong> The Lancet Digital Health (2024)</p>
+        <p><strong>Key Findings:</strong> AI algorithms improve mammography interpretation accuracy by 11.5%, reducing false positives by 5.7% and false negatives by 9.4%.</p>
+        <p><strong>Impact:</strong> Enhanced screening accuracy could save thousands of lives annually through better detection.</p>
+      </div>
+
+      <div class="research-paper">
+        <h3>💊 Novel CDK4/6 Inhibitor Combinations</h3>
+        <p><strong>Journal:</strong> New England Journal of Medicine (2024)</p>
+        <p><strong>Key Findings:</strong> Combination of CDK4/6 inhibitors with novel PI3K inhibitors shows 67% progression-free survival improvement in metastatic hormone receptor-positive breast cancer.</p>
+        <p><strong>Impact:</strong> New treatment option for patients who develop resistance to standard hormone therapy.</p>
+      </div>
+
+      <div class="research-paper">
+        <h3>🧪 Immunotherapy in Triple-Negative Breast Cancer</h3>
+        <p><strong>Journal:</strong> Journal of Clinical Oncology (2024)</p>
+        <p><strong>Key Findings:</strong> Pembrolizumab plus chemotherapy improves overall survival by 23% in early-stage triple-negative breast cancer patients.</p>
+        <p><strong>Impact:</strong> First immunotherapy to show survival benefit in early-stage TNBC, changing treatment standards.</p>
+      </div>
+
+      <div class="research-paper">
+        <h3>🔮 Circulating Tumor Cells for Prognosis</h3>
+        <p><strong>Journal:</strong> Cancer Research (2024)</p>
+        <p><strong>Key Findings:</strong> Real-time monitoring of circulating tumor cells predicts treatment response 3 months earlier than imaging studies.</p>
+        <p><strong>Impact:</strong> Enables earlier treatment modifications, potentially improving outcomes and reducing unnecessary toxicity.</p>
+      </div>
+    </div>
+
+    <!-- Links Page -->
+    <div id="links" class="page">
+      <h2 class="section-title">Links</h2>
+      <ul class="link-list">
+        <li class="research-paper">
+          <a href="https://www.aafp.org/pubs/afp/issues/2010/0601/p1339.pdf" target="_blank" rel="noopener">
+            Treatment of Breast Cancer — Maughan, Lutterbie, Ha (AAFP)
+          </a>
+        </li>
+        <li class="research-paper">
+          <a href="https://www.aafp.org/pubs/afp/issues/2010/0601/p1339.pdf" target="_blank" rel="noopener">
+            Treatment of Breast Cancer — Maughan, Lutterbie, Ha (AAFP)
+          </a>
+        </li>
+        <li class="research-paper">
+          <a href="https://www.aafp.org/pubs/afp/issues/2010/0601/p1339.pdf" target="_blank" rel="noopener">
+            Treatment of Breast Cancer — Maughan, Lutterbie, Ha (AAFP)
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+    <footer>
+    <p>&copy; 2024 Hope & Healing. All rights reserved.</p>
+    <p>Last edited: 12th September 2025 by Lulua Dhorajiwala.</p>
+    </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
