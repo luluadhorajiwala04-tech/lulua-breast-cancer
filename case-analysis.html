@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case Analysis - Breast Cancer Research</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <i class="fas fa-heartbeat"></i>
+          <span>Breast Cancer Research</span>
+        </div>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="diagnostic.html" class="nav-link">Diagnostic Methods</a>
+          </li>
+          <li class="nav-item">
+            <a href="remedial.html" class="nav-link">Remedial Measures</a>
+          </li>
+          <li class="nav-item">
+            <a href="case-analysis.html" class="nav-link active"
+              >Case Analysis</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="research.html" class="nav-link">Research Papers</a>
+          </li>
+        </ul>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <h1>Case Analysis</h1>
+        <p>
+          Real-world case studies and data analysis of breast cancer outcomes
+        </p>
+      </div>
+    </section>
+
+    <!-- Case Study Overview -->
+    <section class="case-overview">
+      <div class="container">
+        <div class="overview-content">
+          <h2>Case Study Analysis</h2>
+          <p>
+            This section presents detailed case studies of breast cancer
+            patients, including their diagnostic journey, treatment protocols,
+            and outcomes. Each case provides valuable insights into the
+            complexity of breast cancer management and the importance of
+            personalized treatment approaches.
+          </p>
+          <div class="case-stats">
+            <div class="stat-item">
+              <span class="stat-number">150+</span>
+              <span class="stat-label">Cases Analyzed</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">5</span>
+              <span class="stat-label">Years of Data</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">85%</span>
+              <span class="stat-label">Success Rate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Case Studies -->
+    <section class="case-studies">
+      <div class="container">
+        <h2 class="section-title">Featured Case Studies</h2>
+        <div class="case-grid">
+          <div class="case-card" data-case="1">
+            <div class="case-header">
+              <h3>Case Study #1: Early Detection Success</h3>
+              <span class="case-tag success">Successful Outcome</span>
+            </div>
+            <div class="case-details">
+              <div class="patient-info">
+                <p><strong>Age:</strong> 42 years</p>
+                <p><strong>Stage:</strong> Stage I</p>
+                <p><strong>Type:</strong> Invasive Ductal Carcinoma</p>
+              </div>
+              <div class="case-summary">
+                <h4>Clinical Presentation:</h4>
+                <p>
+                  Patient discovered a small lump during self-examination.
+                  Mammography confirmed a 1.2cm mass with no lymph node
+                  involvement.
+                </p>
+                <h4>Treatment Protocol:</h4>
+                <ul>
+                  <li>Lumpectomy with clear margins</li>
+                  <li>Sentinel lymph node biopsy (negative)</li>
+                  <li>Radiation therapy (20 sessions)</li>
+                  <li>Hormone therapy (Tamoxifen)</li>
+                </ul>
+                <h4>Outcome:</h4>
+                <p>
+                  5-year disease-free survival. Patient remains in remission
+                  with regular follow-up.
+                </p>
+              </div>
+            </div>
+            <button class="btn btn-outline case-expand">View Full Case</button>
+          </div>
+
+          <div class="case-card" data-case="2">
+            <div class="case-header">
+              <h3>Case Study #2: Advanced Stage Management</h3>
+              <span class="case-tag complex">Complex Case</span>
+            </div>
+            <div class="case-details">
+              <div class="patient-info">
+                <p><strong>Age:</strong> 58 years</p>
+                <p><strong>Stage:</strong> Stage IIIB</p>
+                <p><strong>Type:</strong> Triple Negative Breast Cancer</p>
+              </div>
+              <div class="case-summary">
+                <h4>Clinical Presentation:</h4>
+                <p>
+                  Large breast mass with skin involvement and axillary lymph
+                  node metastasis. HER2-negative, ER/PR-negative.
+                </p>
+                <h4>Treatment Protocol:</h4>
+                <ul>
+                  <li>Neoadjuvant chemotherapy (AC-T regimen)</li>
+                  <li>Modified radical mastectomy</li>
+                  <li>Adjuvant radiation therapy</li>
+                  <li>Clinical trial participation</li>
+                </ul>
+                <h4>Outcome:</h4>
+                <p>
+                  Pathological complete response achieved. Currently 3 years
+                  post-treatment with no evidence of disease.
+                </p>
+              </div>
+            </div>
+            <button class="btn btn-outline case-expand">View Full Case</button>
+          </div>
+
+          <div class="case-card" data-case="3">
+            <div class="case-header">
+              <h3>Case Study #3: Genetic Predisposition</h3>
+              <span class="case-tag genetic">Genetic Case</span>
+            </div>
+            <div class="case-details">
+              <div class="patient-info">
+                <p><strong>Age:</strong> 35 years</p>
+                <p><strong>Stage:</strong> Stage IIA</p>
+                <p><strong>Type:</strong> BRCA1 Mutation Carrier</p>
+              </div>
+              <div class="case-summary">
+                <h4>Clinical Presentation:</h4>
+                <p>
+                  Young patient with family history of breast cancer. Genetic
+                  testing revealed BRCA1 mutation.
+                </p>
+                <h4>Treatment Protocol:</h4>
+                <ul>
+                  <li>Bilateral mastectomy</li>
+                  <li>Oophorectomy (risk reduction)</li>
+                  <li>Chemotherapy (dose-dense AC-T)</li>
+                  <li>PARP inhibitor therapy</li>
+                </ul>
+                <h4>Outcome:</h4>
+                <p>
+                  Successful treatment with risk-reducing surgeries. Patient
+                  enrolled in surveillance program.
+                </p>
+              </div>
+            </div>
+            <button class="btn btn-outline case-expand">View Full Case</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Data Visualization -->
+    <section class="data-visualization bg-light">
+      <div class="container">
+        <h2 class="section-title">Data Analysis & Trends</h2>
+        <div class="chart-container">
+          <div class="chart-controls">
+            <button class="chart-btn active" data-chart="survival">
+              Survival Rates
+            </button>
+            <button class="chart-btn" data-chart="stages">
+              Stage Distribution
+            </button>
+            <button class="chart-btn" data-chart="treatments">
+              Treatment Outcomes
+            </button>
+            <button class="chart-btn" data-chart="age">Age Distribution</button>
+          </div>
+          <div class="chart-area">
+            <canvas id="dataChart" width="800" height="400"></canvas>
+          </div>
+          <div class="chart-legend">
+            <div id="chartLegend"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Treatment Outcome Analysis -->
+    <section class="outcome-analysis">
+      <div class="container">
+        <h2 class="section-title">Treatment Outcome Analysis</h2>
+        <div class="outcome-grid">
+          <div class="outcome-card">
+            <h3>Surgical Outcomes</h3>
+            <div class="outcome-stats">
+              <div class="outcome-stat">
+                <span class="stat-label">Lumpectomy Success</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 87%"></div>
+                </div>
+                <span class="stat-value">87%</span>
+              </div>
+              <div class="outcome-stat">
+                <span class="stat-label">Mastectomy Success</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 92%"></div>
+                </div>
+                <span class="stat-value">92%</span>
+              </div>
+              <div class="outcome-stat">
+                <span class="stat-label">Reconstruction Rate</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 78%"></div>
+                </div>
+                <span class="stat-value">78%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="outcome-card">
+            <h3>Chemotherapy Response</h3>
+            <div class="outcome-stats">
+              <div class="outcome-stat">
+                <span class="stat-label">Complete Response</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 65%"></div>
+                </div>
+                <span class="stat-value">65%</span>
+              </div>
+              <div class="outcome-stat">
+                <span class="stat-label">Partial Response</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 25%"></div>
+                </div>
+                <span class="stat-value">25%</span>
+              </div>
+              <div class="outcome-stat">
+                <span class="stat-label">Stable Disease</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 10%"></div>
+                </div>
+                <span class="stat-value">10%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="outcome-card">
+            <h3>Radiation Therapy</h3>
+            <div class="outcome-stats">
+              <div class="outcome-stat">
+                <span class="stat-label">Local Control</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 95%"></div>
+                </div>
+                <span class="stat-value">95%</span>
+              </div>
+              <div class="outcome-stat">
+                <span class="stat-label">Side Effect Rate</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 15%"></div>
+                </div>
+                <span class="stat-value">15%</span>
+              </div>
+              <div class="outcome-stat">
+                <span class="stat-label">Completion Rate</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 98%"></div>
+                </div>
+                <span class="stat-value">98%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Case Study Search Tool -->
+    <section class="case-search bg-light">
+      <div class="container">
+        <h2 class="section-title">Search Case Studies</h2>
+        <div class="search-tool">
+          <div class="search-filters">
+            <select
+              id="stage-filter"
+              class="filter-select"
+              aria-label="Filter by cancer stage"
+            >
+              <option value="">All Stages</option>
+              <option value="0">Stage 0</option>
+              <option value="1">Stage I</option>
+              <option value="2">Stage II</option>
+              <option value="3">Stage III</option>
+              <option value="4">Stage IV</option>
+            </select>
+            <select
+              id="age-filter"
+              class="filter-select"
+              aria-label="Filter by patient age"
+            >
+              <option value="">All Ages</option>
+              <option value="young">Under 40</option>
+              <option value="middle">40-60</option>
+              <option value="senior">Over 60</option>
+            </select>
+            <select
+              id="outcome-filter"
+              class="filter-select"
+              aria-label="Filter by treatment outcome"
+            >
+              <option value="">All Outcomes</option>
+              <option value="successful">Successful</option>
+              <option value="complex">Complex</option>
+              <option value="ongoing">Ongoing</option>
+            </select>
+            <button id="search-cases" class="btn btn-primary">
+              Search Cases
+            </button>
+          </div>
+          <div id="search-results" class="search-results">
+            <p>Use the filters above to search for specific case studies</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Case Study Submission -->
+    <section class="case-submission">
+      <div class="container">
+        <h2 class="section-title">Submit a Case Study</h2>
+        <div class="submission-form">
+          <form id="caseForm">
+            <div class="form-group">
+              <label for="caseTitle">Case Title</label>
+              <input type="text" id="caseTitle" name="caseTitle" required />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="patientAge">Patient Age</label>
+                <input
+                  type="number"
+                  id="patientAge"
+                  name="patientAge"
+                  min="18"
+                  max="100"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="cancerStage">Cancer Stage</label>
+                <select id="cancerStage" name="cancerStage" required>
+                  <option value="">Select Stage</option>
+                  <option value="0">Stage 0</option>
+                  <option value="1">Stage I</option>
+                  <option value="2">Stage II</option>
+                  <option value="3">Stage III</option>
+                  <option value="4">Stage IV</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="caseDescription">Case Description</label>
+              <textarea
+                id="caseDescription"
+                name="caseDescription"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="treatmentProtocol">Treatment Protocol</label>
+              <textarea
+                id="treatmentProtocol"
+                name="treatmentProtocol"
+                rows="4"
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="outcome">Outcome</label>
+              <textarea
+                id="outcome"
+                name="outcome"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Submit Case Study
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Breast Cancer Research</h3>
+            <p>
+              Dedicated to advancing understanding and treatment of breast
+              cancer through comprehensive research and education.
+            </p>
+          </div>
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="diagnostic.html">Diagnostic Methods</a></li>
+              <li><a href="remedial.html">Treatment Options</a></li>
+              <li><a href="case-analysis.html">Case Analysis</a></li>
+              <li><a href="research.html">Research Papers</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Contact</h3>
+            <p><i class="fas fa-envelope"></i> research@breastcancer.edu</p>
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Breast Cancer Research. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
