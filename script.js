@@ -1,367 +1,744 @@
-// Page navigation with smooth transitions
-function showPage(pageId) {
-  const pages = document.querySelectorAll('.page');
-  const currentPage = document.querySelector('.page.active');
+// Mobile Navigation Toggle
+const hamburger = document.querySelector(".hamburger");
+const navMenu = document.querySelector(".nav-menu");
 
-  if (currentPage) {
-    currentPage.style.opacity = '0';
-    currentPage.style.transform = 'scale(0.95)';
+if (hamburger && navMenu) {
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+  });
 
-    setTimeout(() => {
-      currentPage.classList.remove('active');
-
-      const newPage = document.getElementById(pageId);
-      if (!newPage) return;
-      newPage.classList.add('active');
-      newPage.style.opacity = '0';
-      newPage.style.transform = 'scale(0.95)';
-
-      setTimeout(() => {
-        newPage.style.transition = 'all 0.5s ease';
-        newPage.style.opacity = '1';
-        newPage.style.transform = 'scale(1)';
-      }, 50);
-    }, 250);
-  } else {
-    document.getElementById(pageId).classList.add('active');
-  }
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  updateNavigation(pageId);
+  // Close mobile menu when clicking on a link
+  document.querySelectorAll(".nav-link").forEach((n) =>
+    n.addEventListener("click", () => {
+      hamburger.classList.remove("active");
+      navMenu.classList.remove("active");
+    })
+  );
 }
 
-// Update navigation active state
-function updateNavigation(activePageId) {
-  const navLinks = document.querySelectorAll('.nav-links a');
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('onclick')?.includes(activePageId)) {
-      link.classList.add('active');
+// Animated Counter for Statistics
+function animateCounter(element, target, duration = 2000) {
+  let start = 0;
+  const increment = target / (duration / 16);
+
+  function updateCounter() {
+    start += increment;
+    if (start < target) {
+      element.textContent = Math.floor(start);
+      requestAnimationFrame(updateCounter);
+    } else {
+      element.textContent = target;
+    }
+  }
+
+  updateCounter();
+}
+
+// Initialize counters when they come into view
+const observerOptions = {
+  threshold: 0.5,
+  rootMargin: "0px 0px -100px 0px",
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const statNumber = entry.target;
+      const target = parseInt(statNumber.getAttribute("data-target"));
+      animateCounter(statNumber, target);
+      observer.unobserve(statNumber);
+    }
+  });
+}, observerOptions);
+
+// Observe all stat numbers
+document.querySelectorAll(".stat-number").forEach((stat) => {
+  observer.observe(stat);
+});
+
+// Quiz Functionality
+class Quiz {
+  constructor() {
+    this.questions = [
+      {
+        question:
+          "What is the recommended age to start annual mammography screening for most women?",
+        options: ["30 years", "40 years", "50 years", "60 years"],
+        correct: 1,
+      },
+      {
+        question:
+          "Which of the following is NOT a common symptom of breast cancer?",
+        options: ["Breast lump", "Nipple discharge", "Fever", "Skin changes"],
+        correct: 2,
+      },
+      {
+        question:
+          "What percentage of breast cancers are detected through screening?",
+        options: ["25%", "50%", "75%", "90%"],
+        correct: 2,
+      },
+      {
+        question:
+          "Which imaging technique uses sound waves to create breast images?",
+        options: ["Mammography", "Ultrasound", "MRI", "CT Scan"],
+        correct: 1,
+      },
+      {
+        question: "What is the most common type of breast cancer?",
+        options: [
+          "Invasive Ductal Carcinoma",
+          "Invasive Lobular Carcinoma",
+          "Ductal Carcinoma in Situ",
+          "Inflammatory Breast Cancer",
+        ],
+        correct: 0,
+      },
+    ];
+    this.currentQuestion = 0;
+    this.score = 0;
+    this.init();
+  }
+
+  init() {
+    this.updateQuestion();
+    this.bindEvents();
+  }
+
+  updateQuestion() {
+    const questionEl = document.getElementById("quiz-question");
+    if (!questionEl) return;
+
+    const question = this.questions[this.currentQuestion];
+    questionEl.querySelector("h3").textContent = `Question ${
+      this.currentQuestion + 1
+    } of ${this.questions.length}`;
+    questionEl.querySelector("p").textContent = question.question;
+
+    const optionsContainer = questionEl.querySelector(".quiz-options");
+    optionsContainer.innerHTML = "";
+
+    question.options.forEach((option, index) => {
+      const button = document.createElement("button");
+      button.className = "quiz-option";
+      button.textContent = option;
+      button.setAttribute("data-correct", index === question.correct);
+      optionsContainer.appendChild(button);
+    });
+  }
+
+  bindEvents() {
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("quiz-option")) {
+        this.handleAnswer(e.target);
+      }
+      if (e.target.id === "retake-quiz") {
+        this.resetQuiz();
+      }
+    });
+  }
+
+  handleAnswer(selectedButton) {
+    const isCorrect = selectedButton.getAttribute("data-correct") === "true";
+
+    // Disable all options
+    document.querySelectorAll(".quiz-option").forEach((btn) => {
+      btn.disabled = true;
+      if (btn.getAttribute("data-correct") === "true") {
+        btn.classList.add("correct");
+      } else if (btn === selectedButton && !isCorrect) {
+        btn.classList.add("incorrect");
+      }
+    });
+
+    if (isCorrect) {
+      this.score++;
+    }
+
+    setTimeout(() => {
+      this.currentQuestion++;
+      if (this.currentQuestion < this.questions.length) {
+        this.updateQuestion();
+      } else {
+        this.showResults();
+      }
+    }, 1500);
+  }
+
+  showResults() {
+    const questionEl = document.getElementById("quiz-question");
+    const resultEl = document.getElementById("quiz-result");
+
+    if (questionEl && resultEl) {
+      questionEl.style.display = "none";
+      resultEl.style.display = "block";
+      document.getElementById("quiz-score").textContent = this.score;
+    }
+  }
+
+  resetQuiz() {
+    this.currentQuestion = 0;
+    this.score = 0;
+    const questionEl = document.getElementById("quiz-question");
+    const resultEl = document.getElementById("quiz-result");
+
+    if (questionEl && resultEl) {
+      questionEl.style.display = "block";
+      resultEl.style.display = "none";
+      this.updateQuestion();
+    }
+  }
+}
+
+// Initialize quiz if on diagnostic page
+if (document.getElementById("quiz-question")) {
+  new Quiz();
+}
+
+// Treatment Comparison Tool
+class TreatmentComparison {
+  constructor() {
+    this.treatments = {
+      surgical: {
+        name: "Surgical Treatments",
+        options: ["Lumpectomy", "Mastectomy", "Lymph Node Surgery"],
+        successRates: [85, 92, 95],
+        recoveryTime: ["2-4 weeks", "4-8 weeks", "1-2 weeks"],
+      },
+      radiation: {
+        name: "Radiation Therapy",
+        options: ["External Beam", "Brachytherapy", "Proton Therapy"],
+        successRates: [90, 88, 92],
+        recoveryTime: ["6-8 weeks", "2-4 weeks", "8-10 weeks"],
+      },
+      chemotherapy: {
+        name: "Chemotherapy",
+        options: ["Anthracyclines", "Taxanes", "Targeted Therapy"],
+        successRates: [75, 80, 85],
+        recoveryTime: ["3-6 months", "4-8 months", "6-12 months"],
+      },
+      hormone: {
+        name: "Hormone Therapy",
+        options: ["SERMs", "Aromatase Inhibitors", "Ovarian Suppression"],
+        successRates: [70, 75, 80],
+        recoveryTime: ["5-10 years", "5 years", "Variable"],
+      },
+    };
+    this.init();
+  }
+
+  init() {
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    const treatmentFilter = document.getElementById("treatment-filter");
+    const stageFilter = document.getElementById("stage-filter");
+    const searchBtn = document.getElementById("search-cases");
+
+    if (treatmentFilter) {
+      treatmentFilter.addEventListener("change", () => this.updateComparison());
+    }
+    if (stageFilter) {
+      stageFilter.addEventListener("change", () => this.updateComparison());
+    }
+    if (searchBtn) {
+      searchBtn.addEventListener("click", () => this.searchCases());
+    }
+  }
+
+  updateComparison() {
+    const treatmentType = document.getElementById("treatment-filter")?.value;
+    const stage = document.getElementById("stage-filter")?.value;
+    const resultsEl = document.getElementById("comparison-results");
+
+    if (!resultsEl || !treatmentType) {
+      return;
+    }
+
+    const treatment = this.treatments[treatmentType];
+    if (!treatment) {
+      resultsEl.innerHTML = "<p>Select a treatment type to see comparison</p>";
+      return;
+    }
+
+    let html = `<h3>${treatment.name} Comparison</h3>`;
+    html += '<div class="comparison-table">';
+    html +=
+      "<table><thead><tr><th>Treatment</th><th>Success Rate</th><th>Recovery Time</th></tr></thead><tbody>";
+
+    treatment.options.forEach((option, index) => {
+      html += `<tr>
+                <td>${option}</td>
+                <td>${treatment.successRates[index]}%</td>
+                <td>${treatment.recoveryTime[index]}</td>
+            </tr>`;
+    });
+
+    html += "</tbody></table></div>";
+
+    if (stage) {
+      html += `<p><strong>Stage ${stage}:</strong> Treatment recommendations may vary based on cancer stage and individual factors.</p>`;
+    }
+
+    resultsEl.innerHTML = html;
+  }
+
+  searchCases() {
+    const stage = document.getElementById("stage-filter")?.value;
+    const age = document.getElementById("age-filter")?.value;
+    const outcome = document.getElementById("outcome-filter")?.value;
+    const resultsEl = document.getElementById("search-results");
+
+    if (!resultsEl) return;
+
+    let results = [];
+
+    // Simulate search results based on filters
+    if (stage || age || outcome) {
+      results = [
+        {
+          title: "Case Study: Early Detection Success",
+          stage: "Stage I",
+          age: "42",
+          outcome: "Successful",
+        },
+        {
+          title: "Case Study: Advanced Stage Management",
+          stage: "Stage III",
+          age: "58",
+          outcome: "Complex",
+        },
+        {
+          title: "Case Study: Genetic Predisposition",
+          stage: "Stage II",
+          age: "35",
+          outcome: "Successful",
+        },
+      ].filter((case_) => {
+        return (
+          (!stage || case_.stage.includes(stage)) &&
+          (!age ||
+            (age === "young" && case_.age < 40) ||
+            (age === "middle" && case_.age >= 40 && case_.age <= 60) ||
+            (age === "senior" && case_.age > 60)) &&
+          (!outcome || case_.outcome.toLowerCase() === outcome)
+        );
+      });
+    }
+
+    if (results.length > 0) {
+      let html = '<h3>Search Results</h3><div class="search-results-list">';
+      results.forEach((result) => {
+        html += `<div class="search-result-item">
+                    <h4>${result.title}</h4>
+                    <p>Stage: ${result.stage} | Age: ${result.age} | Outcome: ${result.outcome}</p>
+                </div>`;
+      });
+      html += "</div>";
+      resultsEl.innerHTML = html;
+    } else {
+      resultsEl.innerHTML =
+        "<p>No cases found matching your criteria. Try adjusting your filters.</p>";
+    }
+  }
+}
+
+// Initialize treatment comparison if on remedial page
+if (document.getElementById("treatment-filter")) {
+  new TreatmentComparison();
+}
+
+// Case Study Expansion
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("case-expand")) {
+    const caseCard = e.target.closest(".case-card");
+    const caseDetails = caseCard.querySelector(".case-details");
+
+    if (caseDetails.style.display === "none" || !caseDetails.style.display) {
+      caseDetails.style.display = "block";
+      e.target.textContent = "Collapse Case";
+    } else {
+      caseDetails.style.display = "none";
+      e.target.textContent = "View Full Case";
+    }
+  }
+});
+
+// Form Submissions
+document.addEventListener("submit", (e) => {
+  if (e.target.id === "caseForm") {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    // Simulate form submission
+    alert(
+      "Case study submitted successfully! Thank you for your contribution."
+    );
+    e.target.reset();
+  }
+
+  if (e.target.id === "collaborationForm") {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    // Simulate form submission
+    alert("Collaboration proposal submitted! We will contact you soon.");
+    e.target.reset();
+  }
+});
+
+// Smooth Scrolling for Navigation Links
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute("href"));
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  });
+});
+
+// Chart Functionality (Simple Canvas-based charts)
+class SimpleChart {
+  constructor(canvasId, data, type = "bar") {
+    this.canvas = document.getElementById(canvasId);
+    if (!this.canvas) return;
+
+    this.ctx = this.canvas.getContext("2d");
+    this.data = data;
+    this.type = type;
+    this.init();
+  }
+
+  init() {
+    this.drawChart();
+  }
+
+  drawChart() {
+    const width = this.canvas.width;
+    const height = this.canvas.height;
+    const padding = 40;
+    const chartWidth = width - 2 * padding;
+    const chartHeight = height - 2 * padding;
+
+    // Clear canvas
+    this.ctx.clearRect(0, 0, width, height);
+
+    // Draw background
+    this.ctx.fillStyle = "#f5f5f5";
+    this.ctx.fillRect(0, 0, width, height);
+
+    // Draw title
+    this.ctx.fillStyle = "#333";
+    this.ctx.font = "16px Poppins";
+    this.ctx.textAlign = "center";
+    this.ctx.fillText("Breast Cancer Statistics", width / 2, 25);
+
+    if (this.type === "bar") {
+      this.drawBarChart(chartWidth, chartHeight, padding);
+    } else if (this.type === "line") {
+      this.drawLineChart(chartWidth, chartHeight, padding);
+    }
+  }
+
+  drawBarChart(chartWidth, chartHeight, padding) {
+    const barWidth = chartWidth / this.data.length - 10;
+    const maxValue = Math.max(...this.data.map((d) => d.value));
+    const colors = ["#E91E63", "#009688", "#BA68C8", "#80CBC4"];
+
+    this.data.forEach((item, index) => {
+      const barHeight = (item.value / maxValue) * chartHeight;
+      const x = padding + index * (chartWidth / this.data.length) + 5;
+      const y = this.canvas.height - padding - barHeight;
+
+      // Draw bar
+      this.ctx.fillStyle = colors[index % colors.length];
+      this.ctx.fillRect(x, y, barWidth, barHeight);
+
+      // Draw label
+      this.ctx.fillStyle = "#333";
+      this.ctx.font = "12px Poppins";
+      this.ctx.textAlign = "center";
+      this.ctx.fillText(
+        item.label,
+        x + barWidth / 2,
+        this.canvas.height - padding + 20
+      );
+      this.ctx.fillText(item.value + "%", x + barWidth / 2, y - 10);
+    });
+  }
+
+  drawLineChart(chartWidth, chartHeight, padding) {
+    const maxValue = Math.max(...this.data.map((d) => d.value));
+    const colors = ["#E91E63", "#009688"];
+
+    this.ctx.strokeStyle = colors[0];
+    this.ctx.lineWidth = 3;
+    this.ctx.beginPath();
+
+    this.data.forEach((item, index) => {
+      const x = padding + (index / (this.data.length - 1)) * chartWidth;
+      const y =
+        this.canvas.height - padding - (item.value / maxValue) * chartHeight;
+
+      if (index === 0) {
+        this.ctx.moveTo(x, y);
+      } else {
+        this.ctx.lineTo(x, y);
+      }
+
+      // Draw point
+      this.ctx.fillStyle = colors[0];
+      this.ctx.beginPath();
+      this.ctx.arc(x, y, 5, 0, 2 * Math.PI);
+      this.ctx.fill();
+    });
+
+    this.ctx.stroke();
+  }
+}
+
+// Initialize charts if on case analysis page
+if (document.getElementById("dataChart")) {
+  const chartData = [
+    { label: "Stage I", value: 90 },
+    { label: "Stage II", value: 85 },
+    { label: "Stage III", value: 70 },
+    { label: "Stage IV", value: 25 },
+  ];
+
+  const chart = new SimpleChart("dataChart", chartData, "bar");
+
+  // Chart controls
+  document.querySelectorAll(".chart-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document
+        .querySelectorAll(".chart-btn")
+        .forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const chartType = btn.getAttribute("data-chart");
+      let newData;
+
+      switch (chartType) {
+        case "survival":
+          newData = [
+            { label: "Stage I", value: 90 },
+            { label: "Stage II", value: 85 },
+            { label: "Stage III", value: 70 },
+            { label: "Stage IV", value: 25 },
+          ];
+          break;
+        case "stages":
+          newData = [
+            { label: "Stage 0", value: 15 },
+            { label: "Stage I", value: 30 },
+            { label: "Stage II", value: 35 },
+            { label: "Stage III", value: 15 },
+            { label: "Stage IV", value: 5 },
+          ];
+          break;
+        case "treatments":
+          newData = [
+            { label: "Surgery", value: 95 },
+            { label: "Radiation", value: 90 },
+            { label: "Chemo", value: 75 },
+            { label: "Hormone", value: 80 },
+          ];
+          break;
+        case "age":
+          newData = [
+            { label: "20-39", value: 5 },
+            { label: "40-49", value: 20 },
+            { label: "50-59", value: 30 },
+            { label: "60-69", value: 25 },
+            { label: "70+", value: 20 },
+          ];
+          break;
+      }
+
+      if (newData) {
+        chart.data = newData;
+        chart.drawChart();
+      }
+    });
+  });
+}
+
+// Paper Search Functionality
+if (document.getElementById("search-papers")) {
+  document.getElementById("search-papers").addEventListener("click", () => {
+    const searchTerm = document.getElementById("paper-search").value;
+    const year = document.getElementById("year-filter").value;
+    const journal = document.getElementById("journal-filter").value;
+    const category = document.getElementById("category-filter").value;
+
+    // Simulate search results
+    const resultsEl = document.querySelector(".papers-list");
+    if (resultsEl) {
+      let html = "";
+      const mockResults = [
+        {
+          title: "Advances in Breast Cancer Detection",
+          authors: "Smith, J., Johnson, A.",
+          journal: "Nature Medicine",
+          year: "2024",
+          category: "Diagnostic Advances",
+        },
+        {
+          title: "Novel Treatment Approaches",
+          authors: "Brown, S., Davis, R.",
+          journal: "JAMA Oncology",
+          year: "2023",
+          category: "Treatment Innovations",
+        },
+      ].filter((paper) => {
+        return (
+          (!searchTerm ||
+            paper.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
+          (!year || paper.year === year) &&
+          (!journal ||
+            paper.journal.toLowerCase().includes(journal.toLowerCase())) &&
+          (!category || paper.category === category)
+        );
+      });
+
+      if (mockResults.length > 0) {
+        mockResults.forEach((paper) => {
+          html += `<div class="paper-result-item">
+                        <h4>${paper.title}</h4>
+                        <p><strong>Authors:</strong> ${paper.authors}</p>
+                        <p><strong>Journal:</strong> ${paper.journal} (${paper.year})</p>
+                        <p><strong>Category:</strong> ${paper.category}</p>
+                    </div>`;
+        });
+      } else {
+        html = "<p>No papers found matching your criteria.</p>";
+      }
+
+      resultsEl.innerHTML = html;
     }
   });
 }
 
-// Create floating particles
-function createFloatingParticles() {
-  const particleCount = 8;
-
-  for (let i = 0; i < particleCount; i++) {
-    setTimeout(() => {
-      const particle = document.createElement('div');
-      particle.className = 'floating-particle';
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 2 + 's';
-      particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-
-      document.body.appendChild(particle);
-
-      setTimeout(() => { if (particle.parentNode) particle.parentNode.removeChild(particle); }, 26000);
-    }, i * 2000);
-  }
-}
-
-// Enhanced card hover effects (kept for other blocks)
-function initializeCardEffects() {
-  const cards = document.querySelectorAll('.diagnostic-method, .treatment-option, .case-study, .research-paper');
-
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', function (e) {
-      this.style.transform = 'translateY(-8px) rotateX(5deg)';
-      this.style.boxShadow = '0 25px 50px rgba(255, 105, 180, 0.3)';
-      this.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-      createRippleEffect(this, e);
-    });
-
-    card.addEventListener('mouseleave', function () {
-      this.style.transform = 'translateY(0) rotateX(0)';
-      this.style.boxShadow = '';
-    });
-  });
-}
-
-// Create ripple effect on hover
-function createRippleEffect(element, event) {
-  const ripple = document.createElement('span');
-  const rect = element.getBoundingClientRect();
-  const size = Math.max(rect.width, rect.height);
-  const x = event.clientX - rect.left - size / 2;
-  const y = event.clientY - rect.top - size / 2;
-
-  ripple.style.width = ripple.style.height = size + 'px';
-  ripple.style.left = x + 'px';
-  ripple.style.top = y + 'px';
-  ripple.className = 'ripple';
-
-  if (!document.querySelector('.ripple-style')) {
-    const style = document.createElement('style');
-    style.className = 'ripple-style';
-    style.textContent = `
-      .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        pointer-events: none;
-        animation: rippleEffect 0.6s ease-out;
-      }
-      @keyframes rippleEffect {
-        0% { transform: scale(0); opacity: 1; }
-        100% { transform: scale(1); opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  element.appendChild(ripple);
-  setTimeout(() => ripple.remove(), 600);
-}
-
-// Parallax effect for background ribbons
-function initializeParallaxEffect() {
-  window.addEventListener('scroll', function () {
-    const scrolled = window.pageYOffset;
-    const ribbons = document.querySelectorAll('.ribbon');
-
-    ribbons.forEach((ribbon, index) => {
-      const speed = 0.1 + (index * 0.05);
-      const rotation = scrolled * 0.1;
-      ribbon.style.transform = `translateY(${scrolled * speed}px) rotate(${rotation}deg)`;
-    });
-
-    const hero = document.querySelector('.hero');
-    if (hero) {
-      const heroOffset = scrolled * 0.3;
-      hero.style.transform = `translateY(${heroOffset}px)`;
+// Add some CSS for the new elements
+const additionalStyles = `
+    .comparison-table table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
     }
-  });
-}
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .comparison-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .search-results-list {
+        margin-top: 20px;
+    }
+    
+    .search-result-item {
+        background: #f8f9fa;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border-left: 4px solid #E91E63;
+    }
+    
+    .search-result-item h4 {
+        margin: 0 0 10px 0;
+        color: #333;
+    }
+    
+    .search-result-item p {
+        margin: 5px 0;
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .paper-result-item {
+        background: #f8f9fa;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #009688;
+    }
+    
+    .paper-result-item h4 {
+        margin: 0 0 10px 0;
+        color: #333;
+    }
+    
+    .paper-result-item p {
+        margin: 5px 0;
+        color: #666;
+    }
+`;
 
-// Scroll animation observer
-function initializeScrollAnimations() {
-  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+// Inject additional styles
+const styleSheet = document.createElement("style");
+styleSheet.textContent = additionalStyles;
+document.head.appendChild(styleSheet);
 
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach((entry, index) => {
+// Lazy loading for images (if any are added later)
+document.addEventListener("DOMContentLoaded", () => {
+  const images = document.querySelectorAll("img[data-src]");
+  const imageObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          entry.target.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-          entry.target.classList.add('visible');
-        }, index * 100);
+        const img = entry.target;
+        img.src = img.dataset.src;
+        img.classList.remove("lazy");
+        imageObserver.unobserve(img);
       }
     });
-  }, observerOptions);
-
-  const animateElements = document.querySelectorAll('.diagnostic-method, .treatment-option, .case-study, .research-paper, .stat-item, .video-card');
-  animateElements.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(50px)';
-    el.classList.add('animate-on-scroll');
-    observer.observe(el);
   });
-}
 
-// Enhanced statistics interaction
-function initializeStatistics() {
-  const statItems = document.querySelectorAll('.stat-item');
-
-  statItems.forEach((stat, index) => {
-    stat.addEventListener('click', function () {
-      this.style.animation = 'none';
-      this.offsetHeight;
-      this.style.animation = 'pulse 0.6s ease';
-
-      const originalBg = this.style.background;
-      this.style.background = 'linear-gradient(135deg, #ff1493, #dc143c)';
-
-      setTimeout(() => {
-        this.style.background = originalBg || 'linear-gradient(135deg, #ff69b4, #ff1493)';
-        this.style.animation = '';
-      }, 600);
-    });
-
-    stat.style.animationDelay = `${index * 0.2}s`;
-  });
-}
-
-// Typewriter effect for hero text
-function typewriterEffect(element, text, speed = 50) {
-  let i = 0;
-  element.innerHTML = '';
-  function typeChar() {
-    if (i < text.length) {
-      element.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(typeChar, speed);
-    }
-  }
-  typeChar();
-}
-
-// Navigation hover polish
-function initializeNavigation() {
-  const navLinks = document.querySelectorAll('.nav-links a');
-  navLinks.forEach(link => {
-    link.addEventListener('mouseenter', function () {
-      this.style.transform = 'translateY(-3px) scale(1.1)';
-      this.style.boxShadow = '0 10px 25px rgba(255, 255, 255, 0.4)';
-    });
-    link.addEventListener('mouseleave', function () {
-      this.style.transform = 'translateY(-2px) scale(1.05)';
-      this.style.boxShadow = '0 5px 15px rgba(255, 255, 255, 0.3)';
-    });
-  });
-}
-
-// Page load animations
-function initializePageLoadAnimations() {
-  const logo = document.querySelector('.logo');
-  if (logo) {
-    logo.style.opacity = '0';
-    logo.style.transform = 'scale(0.5)';
-    setTimeout(() => {
-      logo.style.transition = 'all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-      logo.style.opacity = '1';
-      logo.style.transform = 'scale(1)';
-    }, 500);
-  }
-
-  const navLinks = document.querySelectorAll('.nav-links a');
-  navLinks.forEach((link, index) => {
-    link.style.opacity = '0';
-    link.style.transform = 'translateY(-20px)';
-    setTimeout(() => {
-      link.style.transition = 'all 0.5s ease';
-      link.style.opacity = '1';
-      link.style.transform = 'translateY(0)';
-    }, 700 + (index * 100));
-  });
-}
-
-// Smooth scroll enhancement (for hash links)
-function initializeSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-}
-
-// Easter egg: Konami code
-function initializeEasterEgg() {
-  const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
-  let userInput = [];
-  document.addEventListener('keydown', function (e) {
-    userInput.push(e.keyCode);
-    if (userInput.length > konamiCode.length) userInput.shift();
-    if (JSON.stringify(userInput) === JSON.stringify(konamiCode)) {
-      createSpecialEffect();
-      userInput = [];
-    }
-  });
-}
-
-// Special effect for easter egg
-function createSpecialEffect() {
-  const specialMessage = document.createElement('div');
-  specialMessage.innerHTML = '💖 Thank you for your support in the fight against breast cancer! 💖';
-  specialMessage.style.cssText = `
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(45deg, #ff69b4, #ff1493);
-    color: white;
-    padding: 2rem;
-    border-radius: 20px;
-    font-size: 1.2rem;
-    text-align: center;
-    z-index: 10000;
-    box-shadow: 0 20px 40px rgba(255, 105, 180, 0.5);
-    animation: specialPulse 2s ease-in-out infinite;
-  `;
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes specialPulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.1); }
-    }
-  `;
-  document.head.appendChild(style);
-  document.body.appendChild(specialMessage);
-  setTimeout(() => { specialMessage.remove(); style.remove(); }, 5000);
-}
-
-/* ========= Burger Menu ========= */
-function initializeBurgerMenu() {
-  const toggle = document.querySelector('.nav-toggle');
-  const menu = document.getElementById('primary-nav');
-  if (!toggle || !menu) return;
-
-  const closeMenu = () => {
-    toggle.setAttribute('aria-expanded', 'false');
-    menu.setAttribute('data-state', 'closed');
-    document.body.style.overflow = '';
-  };
-  const openMenu = () => {
-    toggle.setAttribute('aria-expanded', 'true');
-    menu.setAttribute('data-state', 'open');
-    document.body.style.overflow = 'hidden';
-  };
-  const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
-
-  toggle.addEventListener('click', () => { isOpen() ? closeMenu() : openMenu(); });
-  menu.querySelectorAll('a').forEach(a => { a.addEventListener('click', () => closeMenu()); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) closeMenu(); });
-  window.addEventListener('resize', () => { if (window.innerWidth > 768) { closeMenu(); menu.style.removeProperty('max-height'); } });
-}
-
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function () {
-  console.log('🎀 Breast Cancer Awareness Website Loaded! 🎀');
-
-  initializeBurgerMenu();
-  initializeCardEffects();
-  initializeParallaxEffect();
-  initializeScrollAnimations();
-  initializeStatistics();
-  initializeNavigation();
-  initializePageLoadAnimations();
-  initializeSmoothScroll();
-  initializeEasterEgg();
-
-  createFloatingParticles();
-  setInterval(createFloatingParticles, 30000);
-
-  const heroTitle = document.querySelector('.hero h1');
-  if (heroTitle) {
-    const originalText = heroTitle.textContent;
-    setTimeout(() => { typewriterEffect(heroTitle, originalText, 80); }, 1500);
-  }
-
-  if (window.performance) {
-    window.addEventListener('load', function () {
-      const t = window.performance.timing;
-      const loadTime = t.loadEventEnd - t.navigationStart;
-      console.log(`Page loaded in ${loadTime}ms`);
-    });
-  }
+  images.forEach((img) => imageObserver.observe(img));
 });
 
-// Handle resize events
-window.addEventListener('resize', function () {
-  // nothing special needed now that cards are removed from Home
-});
-
-// Handle visibility changes (tab switching)
-document.addEventListener('visibilitychange', function () {
-  if (document.hidden) {
-    document.querySelectorAll('*').forEach(el => { if (el.style.animation) el.style.animationPlayState = 'paused'; });
-  } else {
-    document.querySelectorAll('*').forEach(el => { if (el.style.animation) el.style.animationPlayState = 'running'; });
+// Add scroll-based animations
+const scrollObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+      }
+    });
+  },
+  {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
   }
-});
+);
 
-// Export functions for potential external use
-window.breastCancerSite = { showPage, createFloatingParticles, createSpecialEffect };
+// Observe elements for scroll animations
+document
+  .querySelectorAll(
+    ".method-card, .treatment-card, .case-card, .paper-card, .category-card"
+  )
+  .forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(30px)";
+    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    scrollObserver.observe(el);
+  });
+
+console.log("Breast Cancer Research Website - JavaScript loaded successfully!");
