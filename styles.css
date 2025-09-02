@@ -277,6 +277,7 @@ body {
 .about-text p {
   font-size: 1.1rem;
   margin-bottom: 20px;
+  text-align: justify;
   color: var(--charcoal);
 }
 
@@ -1612,3 +1613,4 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
